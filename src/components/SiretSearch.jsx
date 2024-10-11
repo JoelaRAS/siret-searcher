@@ -7,14 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 
 const SiretSearch = () => {
-  const [siret, setSiret] = useState('');
-  const [name, setName] = useState('');
+  const [query, setQuery] = useState('');
   const [searchTrigger, setSearchTrigger] = useState(false);
   const [searchType, setSearchType] = useState('siret');
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: [searchType, siret, name],
-    queryFn: () => searchType === 'siret' ? searchEntreprise(siret) : searchEntrepriseByName(name),
+    queryKey: [searchType, query],
+    queryFn: () => searchType === 'siret' ? searchEntreprise(query) : searchEntrepriseByName(query),
     enabled: searchTrigger,
   });
 
@@ -39,9 +38,9 @@ const SiretSearch = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 type="text"
-                value={siret}
-                onChange={(e) => setSiret(e.target.value)}
-                placeholder="Entrez le numéro SIRET"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Entrez le numéro SIRET (complet ou partiel)"
                 className="w-full"
               />
               <Button type="submit" className="w-full">
@@ -53,9 +52,9 @@ const SiretSearch = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Entrez le nom de l'entreprise"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Entrez le nom de l'entreprise (complet ou partiel)"
                 className="w-full"
               />
               <Button type="submit" className="w-full">
@@ -67,7 +66,7 @@ const SiretSearch = () => {
 
         {isLoading && <p className="mt-4">Chargement...</p>}
         {error && <p className="mt-4 text-red-500">Erreur : {error.message}</p>}
-        {data && Array.isArray(data) ? (
+        {data && (
           <div className="mt-4 space-y-4">
             {data.map((entreprise, index) => (
               <div key={index} className="border p-4 rounded">
@@ -77,13 +76,7 @@ const SiretSearch = () => {
               </div>
             ))}
           </div>
-        ) : data ? (
-          <div className="mt-4">
-            <h2 className="text-xl font-semibold">{data.nom_complet}</h2>
-            <p>SIRET : {data.siret}</p>
-            <p>Adresse : {data.adresse}</p>
-          </div>
-        ) : null}
+        )}
       </CardContent>
     </Card>
   );

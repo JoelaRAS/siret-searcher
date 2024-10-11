@@ -10,25 +10,29 @@ const axiosInstance = axios.create({
   },
 });
 
-export const searchEntreprise = async (siret) => {
+export const searchEntreprise = async (query) => {
   try {
-    const response = await axiosInstance.get(`/siret/${siret}`);
-    const data = response.data.etablissement;
-    return {
-      nom_complet: data.uniteLegale.denominationUniteLegale,
-      siret: data.siret,
-      adresse: `${data.adresseEtablissement.numeroVoieEtablissement} ${data.adresseEtablissement.typeVoieEtablissement} ${data.adresseEtablissement.libelleVoieEtablissement}, ${data.adresseEtablissement.codePostalEtablissement} ${data.adresseEtablissement.libelleCommuneEtablissement}`
-    };
+    const response = await axiosInstance.get('/siret', {
+      params: {
+        q: `siret:${query}*`,
+        nombre: 10
+      }
+    });
+    return response.data.etablissements.map(etablissement => ({
+      nom_complet: etablissement.uniteLegale.denominationUniteLegale,
+      siret: etablissement.siret,
+      adresse: `${etablissement.adresseEtablissement.numeroVoieEtablissement} ${etablissement.adresseEtablissement.typeVoieEtablissement} ${etablissement.adresseEtablissement.libelleVoieEtablissement}, ${etablissement.adresseEtablissement.codePostalEtablissement} ${etablissement.adresseEtablissement.libelleCommuneEtablissement}`
+    }));
   } catch (error) {
     throw new Error("Impossible de trouver l'entreprise avec ce SIRET");
   }
 };
 
-export const searchEntrepriseByName = async (name) => {
+export const searchEntrepriseByName = async (query) => {
   try {
     const response = await axiosInstance.get(`/siren`, {
       params: {
-        q: `denominationUniteLegale:"${name}"`,
+        q: `denominationUniteLegale:${query}*`,
         nombre: 10
       }
     });
