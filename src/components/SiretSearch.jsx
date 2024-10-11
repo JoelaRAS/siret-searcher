@@ -24,14 +24,14 @@ const SiretSearch = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-4xl">
       <CardHeader>
         <CardTitle>Recherche d'entreprise</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="siret" onValueChange={(value) => setSearchType(value)}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="siret">Par SIRET</TabsTrigger>
+            <TabsTrigger value="siret">Par SIRET/SIREN</TabsTrigger>
             <TabsTrigger value="name">Par Nom</TabsTrigger>
           </TabsList>
           <TabsContent value="siret">
@@ -40,7 +40,7 @@ const SiretSearch = () => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Entrez le numéro SIRET (complet ou partiel)"
+                placeholder="Entrez le numéro SIRET ou SIREN (complet ou partiel)"
                 className="w-full"
               />
               <Button type="submit" className="w-full">
@@ -71,8 +71,16 @@ const SiretSearch = () => {
             {data.map((entreprise, index) => (
               <div key={index} className="border p-4 rounded">
                 <h2 className="text-xl font-semibold">{entreprise.nom_complet}</h2>
-                <p>SIRET : {entreprise.siret}</p>
-                <p>Adresse : {entreprise.adresse}</p>
+                <p><strong>SIRET :</strong> {entreprise.siret}</p>
+                <p><strong>SIREN :</strong> {entreprise.siren}</p>
+                <p><strong>NIC :</strong> {entreprise.nic}</p>
+                <p><strong>Adresse :</strong> {entreprise.adresse}</p>
+                <p><strong>N° TVA Intracommunautaire :</strong> {entreprise.numero_tva_intracommunautaire}</p>
+                <p><strong>Dirigeant(s) :</strong> {entreprise.dirigeants}</p>
+                <p><strong>Date de création :</strong> {entreprise.date_creation}</p>
+                <p><strong>Tranche d'effectif :</strong> {entreprise.tranche_effectif}</p>
+                <p><strong>Activité principale :</strong> {entreprise.activite_principale}</p>
+                <p><strong>Nature juridique :</strong> {entreprise.nature_juridique}</p>
               </div>
             ))}
           </div>
