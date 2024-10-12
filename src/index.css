@@ -72,5 +72,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* Remove any @font-face rules or imports for Leelawadee UI or other problematic fonts */
