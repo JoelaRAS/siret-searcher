@@ -5,10 +5,12 @@ const API_BASE_URL = 'https://api.insee.fr/entreprises/sirene/V3';
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY_HERE',
+    'Authorization': import.meta.env.VITE_INSEE_API_KEY,
     'Accept': 'application/json',
   },
 });
+
+
 
 const formatAddress = (adresse) => {
   return `${adresse.numeroVoieEtablissement || ''} ${adresse.typeVoieEtablissement || ''} ${adresse.libelleVoieEtablissement || ''}, ${adresse.codePostalEtablissement || ''} ${adresse.libelleCommuneEtablissement || ''}`.trim();
