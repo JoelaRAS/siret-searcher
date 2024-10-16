@@ -3,11 +3,17 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    host: "::",
-    port: "8080",
+    host: "localhost", // Change to "::" if you specifically need IPv6
+    port: 8080,
+    proxy: {
+      '/api': {
+        target: 'https://api.insee.fr/entreprises/sirene/V3.11', // INSEE API URL
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''), // Remove "/api" prefix
+      }
+    }
   },
   plugins: [react()],
   resolve: {
