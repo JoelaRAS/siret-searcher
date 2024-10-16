@@ -50,22 +50,25 @@ export const searchEntreprise = async (query) => {
   }
 };
 
-const searchEtablissementByName = async (query) => {
+export const searchEntrepriseByName = async (query) => {
   try {
+    // Utilisation de la route correcte pour la recherche par nom d'établissement
     const response = await axiosInstance.get('/etablissements', {
       params: {
-        q: `nomUniteLegale:${query}`, // ou d'autres paramètres possibles
+        q: `denominationUniteLegale:${query} OR nomUniteLegale:${query}`, // Format pour la recherche par nom
         nombre: 10
       }
     });
 
     if (response.data && response.data.etablissements) {
-      return response.data.etablissements.map(extractEntrepriseInfo);
+      return response.data.etablissements.map(etablissement => {
+        return extractEntrepriseInfo(etablissement);
+      });
     } else {
       throw new Error("Aucune entreprise trouvée avec ce nom.");
     }
   } catch (error) {
-    console.error(error.message);
+    console.error('Error response:', error.response?.data || error.message); // Gestion améliorée des erreurs
     throw new Error("Impossible de trouver des entreprises avec ce nom.");
   }
 };
