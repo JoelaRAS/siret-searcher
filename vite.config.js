@@ -5,8 +5,6 @@ import { resolve } from "path";
 
 export default defineConfig({
   server: {
-    host: "localhost", // Change to "::" if you specifically need IPv6
-    port: 8080,
     proxy: {
       '/api': {
         target: 'https://api.insee.fr/entreprises/sirene/V3.11', // INSEE API URL
