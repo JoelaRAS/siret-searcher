@@ -50,13 +50,13 @@ export const searchEntreprise = async (query) => {
   }
 };
 
-// Fonction pour chercher une entreprise par nom
 export const searchEntrepriseByName = async (query) => {
   try {
-    const response = await axiosInstance.get('/siren', {
+    // Utilisation de la route correcte pour la recherche par nom d'entreprise
+    const response = await axiosInstance.get(`/unites_legales`, {
       params: {
-        q: `denominationUniteLegale:${query} OR nomUniteLegale:${query}`,
-        nombre: 10,
+        q: `denominationUniteLegale:${query} OR nomUniteLegale:${query}`, // Correctement formaté pour une recherche par nom
+        nombre: 10
       }
     });
 
