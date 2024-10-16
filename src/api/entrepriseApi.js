@@ -1,22 +1,23 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api';
+// Utilisation de l'URL complète de l'API INSEE
+const API_BASE_URL = 'https://api.insee.fr/entreprises/sirene/V3.11';
 
+// Création d'une instance axios avec l'URL de base et les en-têtes
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Authorization': `Bearer ${import.meta.env.VITE_INSEE_API_KEY}`,
+    'Authorization': `Bearer ${import.meta.env.VITE_INSEE_API_KEY}`, // Assurez-vous que la clé API est bien définie dans l'environnement
     'Accept': 'application/json',
   },
 });
 
-
-
-
+// Fonction pour formater une adresse
 const formatAddress = (adresse) => {
   return `${adresse.numeroVoieEtablissement || ''} ${adresse.typeVoieEtablissement || ''} ${adresse.libelleVoieEtablissement || ''}, ${adresse.codePostalEtablissement || ''} ${adresse.libelleCommuneEtablissement || ''}`.trim();
 };
 
+// Fonction pour extraire les informations d'une entreprise
 const extractEntrepriseInfo = (etablissement) => ({
   nom_complet: etablissement.uniteLegale.denominationUniteLegale,
   siret: etablissement.siret,
@@ -33,6 +34,7 @@ const extractEntrepriseInfo = (etablissement) => ({
   nature_juridique: etablissement.uniteLegale.categorieJuridiqueUniteLegale,
 });
 
+// Fonction pour chercher une entreprise par SIRET ou SIREN
 export const searchEntreprise = async (query) => {
   try {
     const response = await axiosInstance.get('/siret', {
@@ -43,19 +45,18 @@ export const searchEntreprise = async (query) => {
     });
     return response.data.etablissements.map(extractEntrepriseInfo);
   } catch (error) {
-    console.error('Error response:', error.response.data); // Affichez le message d'erreur de l'API
+    console.error('Error response:', error.response?.data || error.message); // Gestion améliorée des erreurs
     throw new Error("Impossible de trouver l'entreprise avec ce SIRET/SIREN");
   }
 };
 
-
+// Fonction pour chercher une entreprise par nom
 export const searchEntrepriseByName = async (query) => {
   try {
-    // Utilisation directe de la requête sans guillemets autour de query
-    const response = await axiosInstance.get(`/siren`, {
+    const response = await axiosInstance.get('/siren', {
       params: {
         q: `denominationUniteLegale:${query} OR nomUniteLegale:${query}`,
-        nombre: 10
+        nombre: 10,
       }
     });
 
@@ -75,5 +76,3 @@ export const searchEntrepriseByName = async (query) => {
     throw new Error("Impossible de trouver des entreprises avec ce nom.");
   }
 };
-
-
