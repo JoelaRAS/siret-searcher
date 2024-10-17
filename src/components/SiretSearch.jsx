@@ -8,19 +8,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 
 const SiretSearch = () => {
   const [query, setQuery] = useState('');
-  const [searchType, setSearchType] = useState('siret');  // Ajout du type de recherche
-  const [shouldSearch, setShouldSearch] = useState(false); // Pour déclencher manuellement la recherche
+  const [searchType, setSearchType] = useState('siret');
+  const [shouldSearch, setShouldSearch] = useState(false); 
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: [searchType, query],
     queryFn: () => searchType === 'siret' ? searchEntreprise(query) : searchEntrepriseByName(query),
-    enabled: shouldSearch, // La recherche ne sera activée qu'après le submit
+    enabled: shouldSearch, 
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShouldSearch(true); // Activer la recherche
-    refetch(); // Lancer la recherche manuellement
+    setShouldSearch(true); 
+    refetch(); 
   };
 
   return (
