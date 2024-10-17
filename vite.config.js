@@ -4,15 +4,6 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 
 export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://api.insee.fr/entreprises/sirene/V3.11', // INSEE API URL
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''), // Remove "/api" prefix
-      }
-    }
-  },
   plugins: [react()],
   resolve: {
     alias: [
