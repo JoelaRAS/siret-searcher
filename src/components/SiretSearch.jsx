@@ -66,22 +66,21 @@ const SiretSearch = () => {
 
         {isLoading && <p className="mt-4">Chargement...</p>}
         {data && (
-  <div className="mt-4 space-y-4">
-    {data.map((entreprise, index) => (
-      <div key={index} className="border p-4 rounded">
-        <h2 className="text-xl font-semibold">{entreprise.nom_complet || 'Nom non disponible'}</h2>
-        <p><strong>SIRET :</strong> {entreprise.siret || 'Non disponible'}</p>
-        <p><strong>SIREN :</strong> {entreprise.siren || 'Non disponible'}</p>
-        <p><strong>Adresse :</strong> {entreprise.adresse || 'Non disponible'}</p>
-        <p><strong>Date de création :</strong> {entreprise.date_creation || 'Non disponible'}</p>
-        <p><strong>Tranche d'effectif :</strong> {entreprise.tranche_effectif || 'Non disponible'}</p>
-        <p><strong>Activité principale :</strong> {entreprise.activite_principale || 'Non disponible'}</p>
-        <p><strong>Nature juridique :</strong> {entreprise.nature_juridique || 'Non disponible'}</p>
-      </div>
-    ))}
-  </div>
-)}
-
+          <div className="mt-4 space-y-4">
+            {data.map((entreprise, index) => (
+              <div key={index} className="border p-4 rounded">
+                <h2 className="text-xl font-semibold">{entreprise.nom_complet || 'Nom non disponible'}</h2>
+                <p><strong>SIRET :</strong> {entreprise.siret || 'Non disponible'}</p>
+                <p><strong>SIREN :</strong> {entreprise.siren || 'Non disponible'}</p>
+                <p><strong>Adresse :</strong> {entreprise.adresse || 'Non disponible'}</p>
+                <p><strong>Date de création :</strong> {entreprise.date_creation || 'Non disponible'}</p>
+                <p><strong>Tranche d'effectif :</strong> {entreprise.tranche_effectif || 'Non disponible'}</p>
+                <p><strong>Activité principale :</strong> {entreprise.activite_principale || 'Non disponible'}</p>
+                <p><strong>Nature juridique :</strong> {entreprise.nature_juridique || 'Non disponible'}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

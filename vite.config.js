@@ -17,4 +17,13 @@ export default defineConfig({
       },
     ],
   },
+  server: {
+    proxy: {
+      '/api/insee': {
+        target: 'https://api.insee.fr',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/insee/, '')
+      }
+    }
+  }
 });
