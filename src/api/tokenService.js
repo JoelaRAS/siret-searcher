@@ -11,19 +11,7 @@ class TokenService {
 
   async refreshToken() {
     try {
-      const credentials = 'amFPdlRyWHNtTmkzRnhJYW1RX21feEJvdWpZYTo5emQ5ZkhKUGZvajNSaFdjV2VlNFdSYmgzTnNh';
-      console.log('Credentials:', credentials);
-      
-      const response = await axios.post('/api/insee/token', 
-        'grant_type=client_credentials',
-        {
-          headers: {
-            'Authorization': `Basic ${credentials}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }
-      );
-
+      const response = await axios.post('/api/token');
       this.token = response.data.access_token;
 
       console.log('Nouveau token généré:', this.token);
